@@ -15,6 +15,7 @@ self.addEventListener('message', function(e){
     filter(e.data.imagedata, e.data.iterations);
         
     self.postMessage({
-        'imagedata': e.data.imagedata
+        imagedata: e.data.imagedata,
+        iterations: e.data.iterations
     });
 });

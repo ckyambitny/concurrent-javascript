@@ -402,52 +402,79 @@
             <div id="#canvas" style="float:right;"></div>
             </br>
             <input type="text" id="#iterations" value="100" />
-            <button id="#imgProcess">Process</button>
+            <button id="#imgProcess">WThread</button>
             </br>
+            <button id="#mainProcess">MThread</button>
         </div>
     </section>
     
     <script>
+        var image = document.getElementById('#wave');
+        var canvas = makeCanvas(image);
+        var mainStart = 0;
+        var mainEnd = 0;
+        var workerStart = 0;
+        var workerEnd = 0;
+        document.getElementById("#canvas").appendChild(canvas);
+
         function makeCanvas(image) {
             var canvas = document.createElement("canvas");
             canvas.width = image.width;
             canvas.height = image.height;
             canvas.getContext("2d").drawImage(image, 0, 0);
-            console.log('canvas made');
             return canvas;
+        }
+
+        function filter(imageData, iterations) {
+            var ms = Date.now();
+            var data = imageData.data;
+            for (var j = 0; j < iterations; j++) {
+                for (var i = 0; i < data.length; i += 4) {
+                    var num = Math.round(0.21 * data[i] + 0.71 * data[i+1] + 0.07 * data[i+2]);
+                    data[i] = num;
+                    data[i+1] = num;
+                    data[i+2] = num;
+                    data[i+3] = 205 + Math.random() * 100;
+                }
+            }
         };
 
-        var image = document.getElementById('#wave');
-        var canvas = makeCanvas(image);
-        document.getElementById("#canvas").appendChild(canvas);
-
-
         //webworker stuff
-
         var ctx = canvas.getContext('2d');
         var imageData = ctx.getImageData(0, 0, 200, 200);
         var imgButton = document.getElementById('#imgProcess');
+        var mainButton = document.getElementById('#mainProcess');
+
+        mainButton.addEventListener('click', function (){
+            var iterations = document.getElementById('#iterations').value || 100;
+            var imageData = ctx.getImageData(0, 0, 200, 200);
+            mainStart = Date.now();
+            filter(imageData, iterations);
+            mainEnd = Date.now();
+            console.log('Main thread time, iterations' + iterations + 'time: ' + (mainEnd - mainStart));
+
+            ctx.putImageData(imageData, 0, 0);
+        });
 
         var imgWorker = new Worker('image.js');
         
         imgWorker.addEventListener('message', function(e){
             ctx.putImageData(e.data.imagedata, 0, 0);
+            workerEnd = Date.now();
+            console.log('Worker time, iterations ' + e.data.iterations + ' time: ' + (workerEnd - workerStart));
         });
         
-       
-
         imgButton.addEventListener('click', function (){
             var iterations = document.getElementById('#iterations').value || 100;
             var imageData = ctx.getImageData(0, 0, 200, 200);
-            console.log('liczba iteracji', iterations);
-             var workerData = {
+            var workerData = {
               'imagedata': imageData,
               'iterations': iterations
-        };
+            };
+            workerStart = Date.now();
+
             imgWorker.postMessage(workerData);
         });
-
-
 
     </script>
 
