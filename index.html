@@ -423,7 +423,7 @@
 
 
         //webworker stuff
-        var iterations = document.getElementById('#iterations').value || 100;
+
         var ctx = canvas.getContext('2d');
         var imageData = ctx.getImageData(0, 0, 200, 200);
         var imgButton = document.getElementById('#imgProcess');
@@ -434,12 +434,16 @@
             ctx.putImageData(e.data.imagedata, 0, 0);
         });
         
-        var workerData = {
+       
+
+        imgButton.addEventListener('click', function (){
+            var iterations = document.getElementById('#iterations').value || 100;
+            var imageData = ctx.getImageData(0, 0, 200, 200);
+            console.log('liczba iteracji', iterations);
+             var workerData = {
               'imagedata': imageData,
               'iterations': iterations
         };
-
-        imgButton.addEventListener('click', function (){
             imgWorker.postMessage(workerData);
         });
 
