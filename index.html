@@ -195,6 +195,15 @@
                 <code>myWorker.postMessage(aMessage, transferList);</code>
                 <li> aMessage - any value or JavaScript object handled by the structured clone algorithm(All primitive types, Blob, File, FileList, ArrayBuffer, ArrayBufferView(basically all typed arrays like Int32Array etc.),ImageData, Object, Array, Map, Set)
                 </li>
+            </ul>
+        </div>
+    </section>
+
+     <section class="slide">
+        <div>
+            <h2>Communication throught postMessage() part 2</h2>
+            <ul>
+                <code>myWorker.postMessage(aMessage, transferList);</code>
                 <li>transferList - optional array of Transferable objects to transfer ownership of. When transfer is done, it becomes unusable in contex 
                 transfered from, and worker can modify it. Only MessagePort and ArrayBuffer objects can be transferred.
                 </li>
