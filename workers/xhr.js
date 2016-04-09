@@ -1,9 +1,9 @@
-function makeRequest (method, url){
-    return new Promise(function (resolve, reject){
+function makeRequest(method, url) {
+    return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(method, url);
-        xhr.onload = function (){
-            if (this.status >= 200 && this.status < 300){
+        xhr.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
                 resolve(xhr.response);
             } else {
                 reject({
@@ -13,7 +13,7 @@ function makeRequest (method, url){
             }
         };
 
-        xhr.onerror = function (){
+        xhr.onerror = function () {
             var err = {
                 status: this.status,
                 statusText: xhr.statusText

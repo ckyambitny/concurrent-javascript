@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>WarsawJS Presentation Template</title>
+    <title>WarsawJS Slides: Concurrent programming in JavaScript</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
@@ -9,10 +9,19 @@
 
     <link rel="stylesheet" href="themes/warsawjs/styles/ribbon-theme.css">
     <link rel="stylesheet" href="themes/warsawjs/styles/warsawjs-theme.css">
+
+    <style>
+        button {
+            display: block;
+            width: 250px;
+            height: 50px;
+            font-size: 30px;
+        }
+    </style>
 </head>
 <body class="list">
     <header class="caption">
-        <h1>WarsawJS Presentation Template</h1>
+        <h1>WarsawJS Slides: Concurrent programming in JavaScript</h1>
         <p>We talk about JavaScript. Each month in Warsaw, Poland.</p>
     </header>
 
@@ -22,17 +31,16 @@
                 <img src="themes/warsawjs/pictures/logo.png">
             </div>
             <div class="content">
-                <h4>"Concurrent programming in JavaScript"[PL]</h4>
-                <img style="width: 150px; height: 150px;" src="avatar.jpg"></img>
+                <h2>Concurrent programming in JavaScript</h2>
+                <img style="width: 150px; height: 150px;" src="pictures/avatar.jpg" />
                 <p>Bartłomiej Sobczuk</p>
-                <ul>
-                    <li style="display: inline;"><a href="http://twitter.com/ckyambitny">@twitter</a></li>
-                    <li style="display: inline;"><a href="http://www.github.com/ckyambitny/">@github</a></li>
+                <ul class="social-contacts">
+                    <li><a href="http://twitter.com/ckyambitny">@twitter</a></li>
+                    <li><a href="http://www.github.com/ckyambitny/">@github</a></li>
                 </ul>
             </div>
         </div>
     </section>
-
 
      <section class="slide">
         <div>
@@ -45,15 +53,6 @@
             <h3>Lets find out...</h3>
         </div>
     </section>
-
-    <style>
-        button {
-            display: block;
-            width: 250px;
-            height: 50px;
-            font-size: 30px;
-        }
-    </style>
 
     <section class="slide">
         <div>
@@ -71,9 +70,9 @@
         var button1 = document.getElementById("#button1");
 
         // Slow function
-        var sweat = function (){
-            var arr =[];
-                
+        var sweat = function () {
+            var arr = [];
+
             for (var i = 0; i < 1000000; i++) {
                 // Lets make browser busy
                 arr[i] = i;
@@ -87,16 +86,14 @@
             sweat();
             console.log('There');
         });
-
     </script>
-
 
     <section class="slide">
         <div>
         <h2>Now with timeout</h2>
            <pre>
                 <code>console.log('Hey');</code>
-                <code>setTimeout(function (){</code>
+                <code>setTimeout(function () {</code>
                 <code>  sweat();</code>
                 <code>}, 0);</code>
                 <code>console.log('There');</code>
@@ -117,23 +114,22 @@
             }, 0);
             console.log('There');
         });
-
     </script>
 
-    <section class="slide">
+    <section class="slide shout">
         <div>
-            <h2>So, is setTimeout not in main thread or what?</h2>
+            <h2 style="font-size: 110px;">So, is setTimeout not in main thread or what?</h2>
+        </div>
+    </section>
+
+    <section class="slide shout">
+        <div>
+            <h2 style="font-size: 110px;">Lets process the 'click'</h2>
         </div>
     </section>
 
     <section class="slide">
-        <div>
-            <h2>Lets process the 'click'</h2>
-        </div>
-    </section>
-
-    <section class="slide">
-        <img style="display:block; height: 650px; width:756px; margin: 0 auto;" src="traceWay.jpg"></img>
+        <img style="display:block; height: 650px; width:756px; margin: 0 auto;" src="pictures/traceWay.jpg"/>
     </section>
 
      <section class="slide">
@@ -141,7 +137,7 @@
             <h2>2. Web APIs</h2>
             <ul>
                 <li>Web APIs are a multi-threaded area of the browser that allows many events to trigger at once.</li>
-                <li>Web APIs contains timers, XMLHttpRequest, DOM document,<span style="font-weight:bold; color: red">Web Workers</span>...</li>
+                <li>Web APIs contains timers, XMLHttpRequest, DOM document, <span style="font-weight:bold; color: red">Web Workers</span>...</li>
                 <li>The click event propagates thru the DOM’s Web API</li>
                 <li>Triggering click handlers during the propagation phases on parent and child elements.</li>
             </ul>
@@ -149,7 +145,7 @@
     </section>
 
     <section class="slide">
-        <img style="display:block; height: 650px; width:756px; margin: 0 auto;" src="traceWay.jpg"></img>
+        <img style="display:block; height: 650px; width:756px; margin: 0 auto;" src="pictures/traceWay.jpg"/>
     </section>
 
     <section class="slide">
@@ -159,7 +155,7 @@
                 <li>Next the event’s callback is pushed into one of many event queues</li>
                 <li>Just as there are multiple Web APIs, browsers have event queues for things like network requests, DOM events, Timers, Web Workers...</li>
                 <li>Then a single event loop chooses which callback to push onto the JavaScript call stack</li>
-                <li>Basicly it works like: if Call Stack is empty push the oldest task from queues to the Stack</li>
+                <li>Basically it works like: if Call Stack is empty push the oldest task from queues to the Stack</li>
             </ul>
         </div>
     </section>
@@ -178,7 +174,7 @@
 
     <section class="slide">
         <div>
-            <h2>Web Workers does not have acces to:</h2>
+            <h2>Web Workers does not have access to</h2>
             <ul>
                 <li> The DOM (it's not thread-safe)</li>
                 <li> The window object</li>
@@ -192,11 +188,11 @@
         <div>
             <h2>Simple Worker doing much operations</h2>
             <button id="#workerButton">Simple Worker</button>
-            </br>
+            <br/>
             <button id="#blobWorker">BlobWorker</button>
-            </br>
+            <br/>
             <button id="#noBlock">noBlockButton</button>
-            </br>
+            <br/>
             <p id="#workerPar">Worker Said?</p>
         </div>
     </section>
@@ -207,7 +203,7 @@
             <pre>
                 <code>var workerPar = document.getElementById('#workerPar');</code>
                 <code>var worker = new Worker('bigLoop.js');</code>
-                <code>worker.addEventListener('message', function (e){</code>   
+                <code>worker.addEventListener('message', function (e) {</code>
                 <code>  workerPar.innerHTML = e.data;</code>
                 <code>});</code>
             </pre>
@@ -219,7 +215,7 @@
         <h2>bigLoop.js file</h2>
             <pre>
                 <code>self.addEventListener('message', function(e) {</code>
-                <code>  for (var i = 0; i <= 1000000000; i++){</code>
+                <code>  for (var i = 0; i <= 1000000000; i++) {</code>
                 <code>      var j = i;</code>
                 <code>  }</code>
                 <code>  var x = e.data + j;</code>
@@ -236,11 +232,11 @@
         var workerPar = document.getElementById('#workerPar');
         var clicked = 0;
 
-        var worker = new Worker('bigLoop.js');
+        var worker = new Worker('workers/bigLoop.js');
 
         var blob = new Blob([
             `self.addEventListener('message', function(e) {
-                for (var i = 0; i <= 1000000000; i++){
+                for (var i = 0; i <= 1000000000; i++) {
                     var j = i;
                 }
 
@@ -256,28 +252,28 @@
 
         var blobWorker = new Worker(blobURL);
 
-        blobWorker.addEventListener('message', function (e){
+        blobWorker.addEventListener('message', function (e) {
             workerPar.innerHTML = e.data;
         });
 
-        worker.addEventListener('message', function (e){
+        worker.addEventListener('message', function (e) {
             workerPar.innerHTML = e.data;
         });
 
-        noBlockButton.addEventListener('click', function (){
-             clicked++;
-             workerPar.innerHTML = 'Worker Said?' + clicked;
+        noBlockButton.addEventListener('click', function () {
+            clicked++;
+            workerPar.innerHTML = 'Worker Said?' + clicked;
         });
 
-        workerButton.addEventListener('click', function (){
+        workerButton.addEventListener('click', function () {
             worker.postMessage('Hello Worker ');
         });
 
-        blobWorkerButton.addEventListener('click', function (){
+        blobWorkerButton.addEventListener('click', function () {
             worker.postMessage('Hello BlobWorker ');
         });
     </script>
-    
+
     <section class="slide">
         <div>
         <h2>Same worker using blobs</h2>
@@ -285,7 +281,7 @@
                 <code>var blob = new Blob(["String with code from file"]);</code>
                 <code>var blobURL = window.URL.createObjectURL(blob);</code>
                 <code>var bloWorker = new Worker(blobURL);</code>
-                <code>blobWorker.addEventListener('message', function (e){</code>   
+                <code>blobWorker.addEventListener('message', function (e) {</code>
                 <code>  workerPar.innerHTML = e.data;</code>
                 <code>});</code>
             </pre>
@@ -294,9 +290,9 @@
 
     <section class="slide">
         <div>
-        <h2>Error Handling:</h2>
+        <h2>Error handling</h2>
             <pre>
-                <code>badWorker.addEventListener('error', function (e){</code>   
+                <code>badWorker.addEventListener('error', function (e) {</code>
                 <code>  console.log(e.lineno + ' ' + e.filename + ' ' + e.message);</code>
                 <code>});</code>
             </pre>
@@ -307,8 +303,8 @@
         <div>
         <h2>Error file code</h2>
             <pre>
-                <code>self.addEventListener('message', function(e){</code>
-                <code>// y = undefined;</code>
+                <code>self.addEventListener('message', function(e) {</code>
+                <code>  // y = undefined;</code>
                 <code>  var x = e.data / y;</code>
                 <code>  self.postMessage(x);</code>
                 <code>});</code>
@@ -318,22 +314,22 @@
 
     <section class="slide">
         <div>
-            <h2>Error example: </h2>
+            <h2>Error example</h2>
             <button id="#errorWorker">Simple Worker</button>
             <p id="#workerError">Worker Said?</p>
         </div>
     </section>
 
     <script>
-        var badWorker = new Worker('error.js');
+        var badWorker = new Worker('workers/error.js');
         var workerError = document.getElementById('#workerError');
         var errorWorker = document.getElementById('#errorWorker');
 
-        badWorker.addEventListener('error', function (e){
+        badWorker.addEventListener('error', function (e) {
             workerError.innerHTML = 'Error in line ' + e.lineno + ' ' + e.filename + ' ' + e.message;
         });
 
-        errorWorker.addEventListener('click', function (){
+        errorWorker.addEventListener('click', function () {
             badWorker.postMessage(7);
         });
     </script>
@@ -343,10 +339,10 @@
         <h2>XHR</h2>
             <pre>
                 <code>importScripts('xhr.js');</code>
-                <code>self.addEventListener('message', function(e){</code>
+                <code>self.addEventListener('message', function(e) {</code>
                 <code>    var a = JSON.parse(e.data);</code>
                 <code>    var request = makeRequest(a.method, a.url);</code>
-                <code>    request.then(function (response){</code>
+                <code>    request.then(function (response) {</code>
                 <code>        self.postMessage(response);</code>
                 <code>    }).;</code>
                 <code>});</code>
@@ -358,7 +354,7 @@
         <div>
             <h2>Promised XHR</h2>
             <button id="#xhr">XHR</button>
-            </br>
+            <br/>
             <button id="#badXhr">Bad XHR</button>
 
             <p id="#result">Worker Get?</p>
@@ -366,28 +362,27 @@
     </section>
 
     <script>
-        var xhrWorker = new Worker('xhrWorker.js');
+        var xhrWorker = new Worker('workers/xhrWorker.js');
         var makeXHR = document.getElementById('#xhr');
         var badXHR = document.getElementById('#badXhr');
-
         var result = document.getElementById('#result');
 
-        xhrWorker.addEventListener('message', function (e){
+        xhrWorker.addEventListener('message', function (e) {
             result.innerHTML = e.data;
         });
 
-        xhrWorker.addEventListener('error', function (e){
+        xhrWorker.addEventListener('error', function (e) {
             result.innerHTML = 'Error in line ' + e.lineno + ' ' + e.filename + ' ' + e.message;
         });
 
-        makeXHR.addEventListener('click', function (){
+        makeXHR.addEventListener('click', function () {
             xhrWorker.postMessage(JSON.stringify({
                 method: 'GET',
                 url: 'http://jsonplaceholder.typicode.com/posts/1'
             }));
         });
 
-        badXHR.addEventListener('click', function (){
+        badXHR.addEventListener('click', function () {
             xhrWorker.postMessage(JSON.stringify({
                 method: 'GET',
                 url: 'http://jsoceholder.typicode.com/posts/1'
@@ -398,16 +393,15 @@
      <section class="slide">
         <div>
             <h2>Image processing</h2>
-            <img src="wave.jpg" alt="wave" id="#wave">
+            <img src="pictures/wave.jpg" alt="wave" id="#wave"/>
             <div id="#canvas" style="float:right;"></div>
-            </br>
-            <input type="text" id="#iterations" value="100" />
+            <br/>
             <button id="#imgProcess">WThread</button>
-            </br>
+            <br/>
             <button id="#mainProcess">MThread</button>
         </div>
     </section>
-    
+
     <script>
         var image = document.getElementById('#wave');
         var canvas = makeCanvas(image);
@@ -415,6 +409,8 @@
         var mainEnd = 0;
         var workerStart = 0;
         var workerEnd = 0;
+        var iterations = 1000;
+
         document.getElementById("#canvas").appendChild(canvas);
 
         function makeCanvas(image) {
@@ -426,69 +422,63 @@
         }
 
         function filter(imageData, iterations) {
-            var ms = Date.now();
             var data = imageData.data;
             for (var j = 0; j < iterations; j++) {
                 for (var i = 0; i < data.length; i += 4) {
-                    var num = Math.round(0.21 * data[i] + 0.71 * data[i+1] + 0.07 * data[i+2]);
+                    var num = Math.round(0.21 * data[i] + 0.71 * data[i + 1] + 0.07 * data[i + 2]);
                     data[i] = num;
-                    data[i+1] = num;
-                    data[i+2] = num;
-                    data[i+3] = 205 + Math.random() * 100;
+                    data[i + 1] = num;
+                    data[i + 2] = num;
+                    data[i + 3] = 205 + Math.random() * 100;
                 }
             }
-        };
+        }
 
-        //webworker stuff
+        // web worker stuff
         var ctx = canvas.getContext('2d');
         var imageData = ctx.getImageData(0, 0, 200, 200);
         var imgButton = document.getElementById('#imgProcess');
         var mainButton = document.getElementById('#mainProcess');
 
-        mainButton.addEventListener('click', function (){
-            var iterations = document.getElementById('#iterations').value || 100;
+        mainButton.addEventListener('click', function () {
             var imageData = ctx.getImageData(0, 0, 200, 200);
             mainStart = Date.now();
             filter(imageData, iterations);
             mainEnd = Date.now();
-            console.log('Main thread time, iterations' + iterations + 'time: ' + (mainEnd - mainStart));
+            console.log('Main thread time, iterations ' + iterations + ' time: ' + (mainEnd - mainStart));
 
             ctx.putImageData(imageData, 0, 0);
         });
 
-        var imgWorker = new Worker('image.js');
-        
-        imgWorker.addEventListener('message', function(e){
-            ctx.putImageData(e.data.imagedata, 0, 0);
+        var imgWorker = new Worker('workers/image.js');
+
+        imgWorker.addEventListener('message', function (e) {
+            ctx.putImageData(e.data.imageData, 0, 0);
             workerEnd = Date.now();
             console.log('Worker time, iterations ' + e.data.iterations + ' time: ' + (workerEnd - workerStart));
         });
-        
-        imgButton.addEventListener('click', function (){
-            var iterations = document.getElementById('#iterations').value || 100;
+
+        imgButton.addEventListener('click', function () {
             var imageData = ctx.getImageData(0, 0, 200, 200);
             var workerData = {
-              'imagedata': imageData,
-              'iterations': iterations
+                imageData: imageData,
+                iterations: iterations
             };
             workerStart = Date.now();
-
             imgWorker.postMessage(workerData);
         });
-
     </script>
 
-     <section class="slide">
+    <section class="slide">
         <div>
             <h2>Libraries</h2>
             <ul>
                 <li><a href="https://github.com/padolsey/operative">Operative</a></li>
-                <li><a href="https://github.com/calvinmetcalf/catiline">Caitline</a></li>
+                <li><a href="https://github.com/calvinmetcalf/catiline">Catiline</a></li>
                 <li><a href="https://adambom.github.io/parallel.js/">Parallel.js</a></li>
             </ul>
         </div>
     </section>
-
 
     <section class="slide shout">
         <div>
@@ -496,14 +486,14 @@
         </div>
     </section>
 
-    <p class="badge"><a href="https://github.com/warsawjs/presentation-template">Fork me on Github</a></p>
+    <p class="badge"><a href="https://github.com/warsawjs/presentation-template">Fork me on GitHub</a></p>
 
     <div class="progress">
         <div></div>
     </div>
 
-    <script src="vendor/gamepad/gamepad.js"></script>
-    <script src="vendor/shower/shower.js"></script>
-    <script src="vendor/shower/shower.gamepad.js"></script>
-</html>
+    <script src="vendors/gamepad/gamepad.js"></script>
+    <script src="vendors/shower/shower.js"></script>
+    <script src="vendors/shower/shower.gamepad.js"></script>
 </body>
+</html>
