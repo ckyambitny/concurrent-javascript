@@ -1,4 +1,6 @@
-# WarsawJS Presentation Template
+# WarsawJS Slides: Concurrent programming in JavaScript
+
+See video: https://www.youtube.com/watch?v=Vq0zKmlLWa0
 
 ![Logo](/themes/warsawjs/pictures/logo.png)
 
